@@ -15,6 +15,17 @@ DEFAULT_QUERY = (
     "Citroën ë-C3: einzelne Inserate von Händlern zum Kauf (kein Leasing, "
     "keine Tageszulassungen)."
 )
+
+SEARCH_HINT = (
+    "Wichtig für die Suche: Nutze gezielt die mobile.de-Suche für jedes Modell, "
+    "z. B. https://suchen.mobile.de/fahrzeuge/search.html?con=USED&ft=ELECTRICITY"
+    "&ms=19000%3B10%3B%3B&s=Car&vc=Car für den Opel Corsa Electric (USED = "
+    "Gebrauchtfahrzeuge, ELECTRICITY = Elektro). Konstruiere entsprechende "
+    "Such-URLs auch für Peugeot e-208, Renault 5 E-Tech und Citroën ë-C3 "
+    "(Parameter ms=<Marken-ID>%3B<Modell-ID>%3B%3B) und suche zusätzlich mit "
+    "site:suchen.mobile.de nach den Modellen. Behaupte NIE 'keine Angebote', "
+    "solange die mobile.de-Suche Treffer zeigt."
+)
 SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.1und1.de")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 
@@ -47,7 +58,9 @@ async def run_web_research(query: str) -> str:
         ),
         tools=[WebSearchTool()],
     )
-    result = await Runner.run(agent=agent, inputs=query, max_turns=10)
+    result = await Runner.run(
+        agent=agent, inputs=f"{query}\n\n{SEARCH_HINT}", max_turns=12
+    )
     return "\n\n".join(
         chunk.text for chunk in result if isinstance(chunk, TextChunk) and chunk.text
     )
