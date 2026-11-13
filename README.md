@@ -13,7 +13,7 @@ Eingabe (optional konfigurierbar):
 
 ```json
 {
-  "query": "aktuelle Elektroauto News, Tests und Angebote in Deutschland",
+  "query": "Gebrauchte Elektroautos ab Baujahr 2024: Opel Corsa Electric, Peugeot e-208, Renault 5 E-Tech, Citroën ë-C3",
   "recipient": null,
   "dry_run": false
 }

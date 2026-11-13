@@ -18,7 +18,8 @@ def test_build_email_message_contains_report_and_recipient():
 
 
 def test_default_input_query():
-    assert EVSearchInput().query.startswith("aktuelle Elektroauto")
+    assert "Opel Corsa Electric" in EVSearchInput().query
+    assert "Baujahr 2024" in EVSearchInput().query
 
 
 async def test_send_report_email_uses_env_recipient_and_smtp(

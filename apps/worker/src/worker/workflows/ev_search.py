@@ -9,7 +9,11 @@ from mistralai.client.models.websearchtool import WebSearchTool
 from mistralai.workflows.plugins.mistralai import Agent, Runner
 from pydantic import BaseModel, Field
 
-DEFAULT_QUERY = "aktuelle Elektroauto News, Tests und Angebote in Deutschland"
+DEFAULT_QUERY = (
+    "Gebrauchte Elektroautos ab Baujahr 2024 in Deutschland: Opel Corsa Electric, "
+    "Peugeot e-208, Renault 5 E-Tech und Citroën ë-C3. Suche aktuelle Angebote, "
+    "Preise, Preisentwicklungen und Marktlage für diese Modelle."
+)
 SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.1und1.de")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 
@@ -32,10 +36,11 @@ async def run_web_research(query: str) -> str:
         model="mistral-medium-latest",
         instructions=(
             "Du bist ein Recherche-Assistent für Elektroautos. Suche im Web nach "
-            "aktuellen (nicht älter als 14 Tage) Nachrichten, Tests und Angeboten "
-            "zu Elektroautos. Antworte auf Deutsch mit einer strukturierten "
-            "Übersicht aus 5 bis 8 Punkten: jeweils Titel, kurze Zusammenfassung "
-            "und die Quellen-URL."
+            "aktuellen (nicht älter als 14 Tage) gebrauchten Fahrzeugangeboten "
+            "und Marktdaten zu den genannten Elektroauto-Modellen. Antworte auf "
+            "Deutsch mit einer strukturierten Übersicht pro Modell: Preis, "
+            "Baujahr/Kilometerstand der Angebote, Bezugsquelle und die "
+            "Quellen-URL."
         ),
         tools=[WebSearchTool()],
     )
